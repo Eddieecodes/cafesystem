@@ -1,0 +1,39 @@
+.feedback-container {
+    width: 100%;
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .feedback-container h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+  }
+  
+  .feedback-container ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .feedback-container li {
+    background: #f9f9f9;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .feedback-container p {
+    font-size: 16px;
+  }
+  
+  .feedback-container span {
+    display: block;
+    font-size: 14px;
+    color: #777;
+    margin-top: 5px;
+  }
+  

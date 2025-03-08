@@ -1,0 +1,115 @@
+/* Sidebar styles remain the same */
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background-color: rgb(117, 36, 9);
+    color: white;
+    padding: 20px;
+    position: fixed;
+    font-weight: bold;
+    left: 0;
+    top: 0;
+    display: flex;
+    gap: 40px;
+    flex-direction: column;
+    transition: transform 0.3s ease-in-out;
+    box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 99;
+}
+
+.logo {
+    color: white;
+}
+
+/* Sidebar visibility */
+.sidebar.closed {
+    transform: translateX(-100%);
+}
+
+/* Sidebar open on mobile */
+.sidebar.open {
+    transform: translateX(0);
+}
+
+/* Hamburger button */
+.hamburger-btn {
+    display: none;
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    background: rgb(219, 72, 18);
+    color: white;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 10px;
+    z-index: 100;
+    border-radius: 5px;
+}
+
+/* Show hamburger only on mobile */
+@media (max-width: 768px) {
+    .hamburger-btn {
+        display: block;
+    }
+}
+
+/* Close sidebar when a menu item is clicked */
+@media (max-width: 768px) {
+    .sidebar.closed {
+        transform: translateX(-100%);
+    }
+    .sidebar.open {
+        transform: translateX(0);
+    }
+}
+/* Ensure sidebar is always visible on desktop */
+@media (min-width: 769px) {
+    .sidebar {
+        transform: translateX(0) !important;
+    }
+}
+.menu-items {
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 10px;
+}
+
+.sidebar ul li {
+    padding: 10px 0;
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    color: white;
+    font-size: 15px;
+    display: block;
+}
+
+.sidebar ul li:hover a {
+    color: grey;
+}
+
+.logout-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+}
+
+.logout-section {
+    margin-top: 100px;
+}
+
+.logout-btn:hover {
+    color: grey;
+}

@@ -1,0 +1,32 @@
+.cards{
+    padding: 4rem;
+}
+h1{
+    text-align: center;
+    color: black;
+    
+}
+
+.cards__wrapper{
+    position: relative;
+    margin: 50px 0 45px;
+}
+
+.card_div{
+    display: flex;
+    gap: 35px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.card__container__div{
+    margin-bottom: 30px;
+    width: 250px;
+    padding: 20px;
+    height: 200px;
+    font-size: 15px;
+    border-radius: 10px;
+    border-color: rgb(199, 194, 194);
+    box-shadow: 0px 0px 3px 1px gray;
+    background-color: white;
+    color: black;
+}

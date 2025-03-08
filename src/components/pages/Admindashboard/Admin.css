@@ -1,0 +1,38 @@
+/* AdminDashboard.css */
+.admin-container {
+    display: flex;
+    height: 100vh;
+    background-color: white;
+}
+
+.admin-content {
+    margin-left: 250px; /* Ensure content doesn't overlap sidebar */
+    width: 100%;
+    padding: 20px;
+}
+/* Ensure the sidebar works on mobile */
+.hamburger-btn {
+    display: none;
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    background: rgb(219, 72, 18);
+    color: white;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 10px;
+    z-index: 1000;
+    border-radius: 5px;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .hamburger-btn {
+        display: block; /* Show on small screens */
+    }
+
+    .admin-content.shifted {
+        margin-left: 0;
+    }
+}

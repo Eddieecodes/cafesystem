@@ -1,0 +1,37 @@
+.student-management {
+    padding: 30px;
+}
+
+.student-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.addstudent{
+    margin-left: 930px;
+    margin-top: 20px;
+    background-color: rgb(117, 36, 9);
+    margin-bottom: 20px;
+}
+.add-student-btn:hover {
+    background-color: rgb(180, 50, 10);
+}
+
+
+/* Modal Styling */
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    width: 400px;
+    z-index: 1000;
+}
+

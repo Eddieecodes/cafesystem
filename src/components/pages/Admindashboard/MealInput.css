@@ -1,0 +1,56 @@
+.meal-form-container {
+    padding: 30px;
+    max-width: 600px;
+    margin: auto;
+    background: white;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.meal-form-container h2 {
+    color: rgb(117, 36, 9);
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.meal-form-container form div {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.meal-form-container label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.meal-form-container input,
+.meal-form-container select,
+.meal-form-container textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.meal-form-container textarea {
+    height: 80px;
+    resize: none;
+}
+
+.meal-form-container button {
+    width: 100%;
+    padding: 12px;
+    background: rgb(117, 36, 9);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.meal-form-container button:hover {
+    background: darkred;
+}

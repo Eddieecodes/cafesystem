@@ -1,0 +1,186 @@
+#root {
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+/* body{
+  background-color: white;
+} */
+/*login and sign up styling
+/* General Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+/*  Centering Auth Pages */
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: white;
+  padding: 20px;
+  width: 100%;
+}
+
+/*  Login & Signup Box */
+.auth-box {
+  /* background-color: white; */
+  color: white;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+  width: 400px;
+  text-align: center;
+}
+
+/*  Role Switch Buttons */
+.role-switch {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.role-switch button {
+  background-color: white;
+  border: 2px solid black;
+  padding: 10px 15px;
+  cursor: pointer;
+  color: black;
+  font-weight: bold;
+  margin: 0 5px;
+  transition: 0.3s;
+  border-radius: 5px;
+}
+
+.role-switch .active {
+  background-color:rgb(117, 36, 9) ;
+  color: white;
+  border: 2px solid white;
+}
+
+.role-switch .admin-active {
+  background-color:rgb(117, 36, 9);
+  color: white;
+  border: 2px solid white;
+}
+
+/* Form Inputs */
+.auth-form input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid black;
+  border-radius: 5px;
+  color: black;
+}
+
+.auth-form input::placeholder {
+  color: black;
+}
+
+/* Buttons */
+.auth-form button {
+  width: 100%;
+  background-color: rgb(117, 36, 9);
+  color: white;
+  border: 2px solid white;
+  padding: 12px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.auth-form button:hover {
+  background-color: white;
+  color: black;
+  border: 2px solid rgb(117, 36, 9);
+}
+
+/*  Forgot Password & Toggle Links */
+.forgot-password, .auth-toggle {
+  margin-top: 15px;
+  display: block;
+  color: black;
+}
+.forgot-password{
+  font-size: 12px;
+  color: rgb(117, 36, 9);
+  text-decoration: none;
+  margin-left: 20px;
+}
+.auth-toggle a {
+  color: rgb(117, 36, 9);
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.auth-toggle a:hover {
+  text-decoration:none;
+}
+
+/*  Responsive: Centering Form on Mobile */
+@media screen and (max-width: 768px) {
+  .auth-box {
+      width: 90%;
+      padding: 30px;
+  }
+}
+
+/* Footer Styling */
+.footer-container {
+  background-color:rgb(117, 36, 9);
+  color: white;
+  padding: 20px;
+  text-align: center;
+  width: 100%;
+  position: relative;
+  bottom: 0;
+  font-size: 16px;
+}
+
+.footer-subscription {
+  margin-bottom: 15px;
+}
+
+.input-areas {
+  margin-top: 10px;
+}
+
+.footer-input {
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  width: 60%;
+  margin-right: 5px;
+  background-color: white;
+}
+
+.footer-container button {
+  background-color: white;
+  color: black;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+.footer-container button:hover {
+  background-color: grey;
+  color: white;
+}
+
+/* Responsive Footer */
+@media screen and (max-width: 768px) {
+  .footer-input {
+      width: 100%;
+      margin-bottom: 10px;
+  }
+}
