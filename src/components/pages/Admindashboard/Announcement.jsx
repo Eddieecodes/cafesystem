@@ -1,20 +1,33 @@
 import React, { useState } from "react";
+import axios from "axios";
+import config from '../../../config';
 import "./Announcement.css";
 
 const Announcement = ({ onSendAnnouncement }) => {
   const [message, setMessage] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (message.trim() === "") return;
 
-    const newAnnouncement = {
-      message,
-      timestamp: new Date().toLocaleString(),
-    };
+    const token = localStorage.getItem('token');
+    if (!token) {
+      alert('Unauthorized');
+      return;
+    }
 
-    onSendAnnouncement(newAnnouncement);
-    setMessage("");
+    try {
+      const response = await axios.post(`${config.BASE_URL}/feedback/message`, { title: "Announcement", content: message }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      alert('Announcement sent successfully!');
+      setMessage("");
+    } catch (error) {
+      alert('Failed to send announcement.');
+    }
   };
 
   return (

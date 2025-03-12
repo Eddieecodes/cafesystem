@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import config from "../../../config";
 import Button from "../ui/Buttonn";
 import Input from "../ui/Input";
 import Table from "../ui/Table";
@@ -7,28 +9,92 @@ import { Edit, Trash2, Plus } from "lucide-react";
 import "./StudentManagement.css";
 
 const StudentManagement = () => {
-  const [students, setStudents] = useState([
-    { id: 1, matricNo: "21/3043", level: "400", mealType: "Lunch and Supper", course: "Computer Science", email: "student1@babcock.edu.ng" },
-    { id: 2, matricNo: "23/2342", level: "300", mealType: "Breakfast and Dinner", course: "Engineering", email: "student2@babcock.edu.ng" }
-  ]);
-
+  const [students, setStudents] = useState([]);
   const [filter, setFilter] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [newStudent, setNewStudent] = useState({ matricNo: "", level: "", mealType: "", course: "", email: "" });
-  const [editingStudent, setEditingStudent] = useState(null);
+  const [newStudent, setNewStudent] = useState({ name: "", email: "", matricNumber: "", department: "", mealPlan: "" });
 
-  const handleDelete = (id) => {
-    setStudents(students.filter(student => student.id !== id));
+  useEffect(() => {
+    // Fetch students from backend
+    const fetchStudents = async () => {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        alert('Unauthorized');
+        return;
+      }
+
+      try {
+        const response = await axios.get(`${config.BASE_URL}/feedback/students`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        setStudents(response.data);
+      } catch (error) {
+        alert('Failed to fetch students.');
+      }
+    };
+
+    fetchStudents();
+  }, []);
+
+  const handleDelete = async (id) => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      alert('Unauthorized');
+      return;
+    }
+
+    try {
+      await axios.delete(`${config.BASE_URL}/feedback/students/${id}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      setStudents(students.filter(student => student._id !== id));
+    } catch (error) {
+      alert('Failed to delete student.');
+    }
   };
 
-  const handleEdit = (id, key, value) => {
-    setStudents(students.map(student => student.id === id ? { ...student, [key]: value } : student));
+  const handleEdit = async (id, key, value) => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      alert('Unauthorized');
+      return;
+    }
+
+    try {
+      const response = await axios.put(`${config.BASE_URL}/feedback/students/${id}`, { [key]: value }, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      setStudents(students.map(student => student._id === id ? response.data.student : student));
+    } catch (error) {
+      alert('Failed to update student.');
+    }
   };
 
-  const handleAddStudent = () => {
-    setStudents([...students, { id: Date.now(), ...newStudent }]);
-    setIsModalOpen(false);
-    setNewStudent({ matricNo: "", level: "", mealType: "", course: "", email: "" });
+  const handleAddStudent = async () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      alert('Unauthorized');
+      return;
+    }
+
+    try {
+      const response = await axios.post(`${config.BASE_URL}/feedback/students`, newStudent, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      setStudents([...students, response.data.student]);
+      setIsModalOpen(false);
+      setNewStudent({ name: "", email: "", matricNumber: "", department: "", mealPlan: "" });
+    } catch (error) {
+      alert('Failed to add student.');
+    }
   };
 
   return (
@@ -44,47 +110,47 @@ const StudentManagement = () => {
       </div>
 
       <Table
-        headers={["Matric No", "Level", "Meal Type", "Course", "Email", "Actions"]}
-        data={students.filter(s => s.matricNo.includes(filter) || s.course.includes(filter))}
+        headers={["Name", "Email", "Matric No", "Department", "Meal Plan", "Actions"]}
+        data={students.filter(s => s.name.includes(filter) || s.course.includes(filter))}
         renderRow={(student) => (
           <>
             <td
               contentEditable
               suppressContentEditableWarning
-              onInput={(e) => handleEdit(student.id, "matricNo", e.currentTarget.textContent)}
+              onInput={(e) => handleEdit(student._id, "name", e.currentTarget.textContent)}
             >
-              {student.matricNo}
+              {student.name}
             </td>
             <td
               contentEditable
               suppressContentEditableWarning
-              onInput={(e) => handleEdit(student.id, "level", e.currentTarget.textContent)}
-            >
-              {student.level}
-            </td>
-            <td
-              contentEditable
-              suppressContentEditableWarning
-              onInput={(e) => handleEdit(student.id, "mealType", e.currentTarget.textContent)}
-            >
-              {student.mealType}
-            </td>
-            <td
-              contentEditable
-              suppressContentEditableWarning
-              onInput={(e) => handleEdit(student.id, "course", e.currentTarget.textContent)}
-            >
-              {student.course}
-            </td>
-            <td
-              contentEditable
-              suppressContentEditableWarning
-              onInput={(e) => handleEdit(student.id, "email", e.currentTarget.textContent)}
+              onInput={(e) => handleEdit(student._id, "email", e.currentTarget.textContent)}
             >
               {student.email}
             </td>
+            <td
+              contentEditable
+              suppressContentEditableWarning
+              onInput={(e) => handleEdit(student._id, "matricNumber", e.currentTarget.textContent)}
+            >
+              {student.matricNumber}
+            </td>
+            <td
+              contentEditable
+              suppressContentEditableWarning
+              onInput={(e) => handleEdit(student._id, "department", e.currentTarget.textContent)}
+            >
+              {student.department}
+            </td>
+            <td
+              contentEditable
+              suppressContentEditableWarning
+              onInput={(e) => handleEdit(student._id, "mealPlan", e.currentTarget.textContent)}
+            >
+              {student.mealPlan}
+            </td>
             <td>
-              <Button onClick={() => handleDelete(student.id)}><Trash2 size={16} /></Button>
+              <Button onClick={() => handleDelete(student._id)}><Trash2 size={16} /></Button>
             </td>
           </>
         )}
@@ -93,34 +159,34 @@ const StudentManagement = () => {
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <h2>Add Student</h2>
         <Input
-          type="number"
-          placeholder="Matric No"
-          onChange={(e) => setNewStudent({ ...newStudent, matricNo: e.target.value })}
-        />
-        <Input
-          type="number"
-          placeholder="Level"
-          onChange={(e) => setNewStudent({ ...newStudent, level: e.target.value })}
-        />
-        <select
-          onChange={(e) => setNewStudent({ ...newStudent, mealType: e.target.value })}
-          value={newStudent.mealType || ""}
-          style={{ padding: "10px", width: "100%", margin: "10px 0" }}
-        >
-          <option value="" disabled>Select Meal Type</option>
-          <option value="Lunch and Supper">Lunch and Supper</option>
-          <option value="Breakfast and Supper">Breakfast and Supper</option>
-          <option value="Breakfast, Lunch, and Supper">Breakfast, Lunch, and Supper</option>
-        </select>
-        <Input
-          placeholder="Course"
-          onChange={(e) => setNewStudent({ ...newStudent, course: e.target.value })}
+          placeholder="Name"
+          onChange={(e) => setNewStudent({ ...newStudent, name: e.target.value })}
         />
         <Input
           type="email"
           placeholder="Email"
           onChange={(e) => setNewStudent({ ...newStudent, email: e.target.value })}
         />
+        <Input
+          type="text"
+          placeholder="Matric No"
+          onChange={(e) => setNewStudent({ ...newStudent, matricNumber: e.target.value })}
+        />
+        <Input
+          type="text"
+          placeholder="Department"
+          onChange={(e) => setNewStudent({ ...newStudent, department: e.target.value })}
+        />
+        <select
+          onChange={(e) => setNewStudent({ ...newStudent, mealPlan: e.target.value })}
+          value={newStudent.mealPlan || ""}
+          style={{ padding: "10px", width: "100%", margin: "10px 0" }}
+        >
+          <option value="" disabled>Select Meal Plan</option>
+          <option value="Lunch and Supper">Lunch and Supper</option>
+          <option value="Breakfast and Supper">Breakfast and Supper</option>
+          <option value="Breakfast, Lunch, and Supper">Breakfast, Lunch, and Supper</option>
+        </select>
         <Button onClick={handleAddStudent}>Save</Button>
       </Modal>
     </div>

@@ -1,14 +1,71 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import config from '../../../config';
 import './HelpCenter.css';
 
 function HelpCenter() {
     const [message, setMessage] = useState("");
     const [messages, setMessages] = useState([]);
+    const [studentId, setStudentId] = useState("");
 
-    const handleSubmit = () => {
+    useEffect(() => {
+        // Fetch student ID from backend
+        const fetchStudentId = async () => {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                alert('Unauthorized');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${config.BASE_URL}/auth/profile`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    setStudentId(data._id);
+                } else {
+                    alert('Failed to fetch student ID.');
+                }
+            } catch (error) {
+                alert('An error occurred. Please try again.');
+            }
+        };
+
+        fetchStudentId();
+    }, []);
+
+    const handleSubmit = async () => {
         if (message.trim() !== "") {
-            setMessages([...messages, { text: message, date: new Date().toLocaleString() }]);
-            setMessage("");
+            const token = localStorage.getItem('token');
+            if (!token) {
+                alert('Unauthorized');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${config.BASE_URL}/feedback/feedback`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ studentId, feedback: message }),
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    setMessages([...messages, { text: message, date: new Date().toLocaleString() }]);
+                    setMessage("");
+                    alert(data.message);
+                } else {
+                    alert('Failed to submit feedback.');
+                }
+            } catch (error) {
+                alert('An error occurred. Please try again.');
+            }
         }
     };
 

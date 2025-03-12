@@ -1,17 +1,49 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import config from '../../../config';
 import './Notifications.css';
 
 function Notifications() {
-    const [notifications, setNotifications] = useState([
-        { id: 1, message: "Meals will be served outside today.", sender: "Admin", date: "March 5, 2025", day: "Wednesday", read: false },
-        { id: 2, message: "Cafeteria closes at 8 PM today.", sender: "Admin", date: "March 4, 2025", day: "Tuesday", read: true },
-        { id: 3, message: "New meal options available from next week.", sender: "Admin", date: "March 3, 2025", day: "Monday", read: false },
-    ]);
+    const [notifications, setNotifications] = useState([]);
+
+    useEffect(() => {
+        // Fetch notifications from backend
+        const fetchNotifications = async () => {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                alert('Unauthorized');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${config.BASE_URL}/feedback/messages`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    setNotifications(data);
+                } else {
+                    alert('Failed to fetch notifications.');
+                }
+            } catch (error) {
+                alert('An error occurred. Please try again.');
+            }
+        };
+
+        fetchNotifications();
+    }, []);
 
     const markAsRead = (id) => {
         setNotifications(notifications.map(notification =>
-            notification.id === id ? { ...notification, read: true } : notification
+            notification._id === id ? { ...notification, read: true } : notification
         ));
+    };
+
+    const formatDate = (dateString) => {
+        const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+        return new Date(dateString).toLocaleDateString(undefined, options);
     };
 
     return (
@@ -22,9 +54,10 @@ function Notifications() {
                 <ul className="notification-list">
                     {notifications.filter(n => !n.read).length > 0 ? (
                         notifications.filter(n => !n.read).map((note) => (
-                            <li key={note.id} className="notification-item unread" onClick={() => markAsRead(note.id)}>
-                                <p><strong>{note.message}</strong></p>
-                                <p className="notification-meta">{note.day}, {note.date} • Sent by {note.sender}</p>
+                            <li key={note._id} className="notification-item unread" onClick={() => markAsRead(note._id)}>
+                                <p><strong>{note.title}</strong></p>
+                                <p>{note.content}</p>
+                                <p className="notification-meta">{formatDate(note.date)}</p>
                             </li>
                         ))
                     ) : (
@@ -38,9 +71,10 @@ function Notifications() {
                 <ul className="notification-list">
                     {notifications.filter(n => n.read).length > 0 ? (
                         notifications.filter(n => n.read).map((note) => (
-                            <li key={note.id} className="notification-item read">
-                                <p>{note.message}</p>
-                                <p className="notification-meta">{note.day}, {note.date} • Sent by {note.sender}</p>
+                            <li key={note._id} className="notification-item read">
+                                <p><strong>{note.title}</strong></p>
+                                <p>{note.content}</p>
+                                <p className="notification-meta">{formatDate(note.date)}</p>
                             </li>
                         ))
                     ) : (

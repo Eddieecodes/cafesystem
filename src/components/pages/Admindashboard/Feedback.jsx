@@ -1,21 +1,39 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
+import config from '../../../config';
 import "./Feedback.css";
 
 const Feedback = () => {
   const [feedbackList, setFeedbackList] = useState([]);
 
   useEffect(() => {
-    // Simulated API call to fetch feedback
+    // Fetch feedback from backend
     const fetchFeedback = async () => {
-      const feedbackData = [
-        { id: 1, message: "Great system, but it needs improvements.", timestamp: "2025-03-04 10:00 AM" },
-        { id: 2, message: "The cafeteria queues have reduced, thanks!", timestamp: "2025-03-04 12:30 PM" },
-      ];
-      setFeedbackList(feedbackData);
+      const token = localStorage.getItem('token');
+      if (!token) {
+        alert('Unauthorized');
+        return;
+      }
+
+      try {
+        const response = await axios.get(`${config.BASE_URL}/feedback/feedbacks`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        setFeedbackList(response.data);
+      } catch (error) {
+        alert('Failed to fetch feedback.');
+      }
     };
 
     fetchFeedback();
   }, []);
+
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
 
   return (
     <div className="feedback-container">
@@ -25,9 +43,9 @@ const Feedback = () => {
       ) : (
         <ul>
           {feedbackList.map((feedback) => (
-            <li key={feedback.id}>
-              <p>{feedback.message}</p>
-              <span>{feedback.timestamp}</span>
+            <li key={feedback._id}>
+              <p>{feedback.feedback}</p>
+              <span>{formatDate(feedback.date)}</span>
             </li>
           ))}
         </ul>

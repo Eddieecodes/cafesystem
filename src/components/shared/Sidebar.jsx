@@ -17,7 +17,6 @@ function Sidebar({ role, onLogout }) {
     student: [
       { path: "/student", label: "Dashboard Overview" },
       { path: "/student/menu", label: "Daily menu" },
-      { path: "/student/history", label: "Cafeteria History" },
       { path: "/student/notifications", label: "Notifications" },
       { path: "/student/help", label: "Help Center" },
       { path: "/student/profile", label: "Student Profile" },

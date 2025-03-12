@@ -1,18 +1,33 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+import config from '../../../config';
 import './MealInput.css';
 
 function MealInput() {
     const [mealName, setMealName] = useState('');
-    const [day, setDay] = useState('');
-    const [timeRange, setTimeRange] = useState('');
+    const [description, setDescription] = useState('');
+    const [timeFrame, setTimeFrame] = useState('');
     const [specialDiet, setSpecialDiet] = useState(false);
     const [dietDetails, setDietDetails] = useState('');
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log({ mealName, day, timeRange, specialDiet, dietDetails });
-        alert('Meal Added Successfully');
-        // You can implement API calls here
+        const token = localStorage.getItem('token');
+        if (!token) {
+            alert('Unauthorized');
+            return;
+        }
+
+        try {
+            const response = await axios.post(`${config.BASE_URL}/feedback/meals`, { name: mealName, description, timeFrame }, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            alert('Meal Added Successfully');
+        } catch (error) {
+            alert('Failed to add meal.');
+        }
     };
 
     return (
@@ -29,25 +44,20 @@ function MealInput() {
                     />
                 </div>
                 <div>
-                    <label>Day</label>
-                    <select value={day} onChange={(e) => setDay(e.target.value)} required>
-                        <option value="">Select Day</option>
-                        <option value="Monday">Monday</option>
-                        <option value="Tuesday">Tuesday</option>
-                        <option value="Wednesday">Wednesday</option>
-                        <option value="Thursday">Thursday</option>
-                        <option value="Friday">Friday</option>
-                        <option value="Saturday">Saturday</option>
-                        <option value="Sunday">Sunday</option>
-                    </select>
+                    <label>Description</label>
+                    <textarea
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                        required
+                    />
                 </div>
                 <div>
-                    <label>Time Range</label>
-                    <select value={timeRange} onChange={(e) => setTimeRange(e.target.value)} required>
-                        <option value="">Select Time Range</option>
-                        <option value="9-12">9 AM - 12 PM</option>
-                        <option value="12-3">12 PM - 3 PM</option>
-                        <option value="5-8">5 PM - 8 PM</option>
+                    <label>Time Frame</label>
+                    <select value={timeFrame} onChange={(e) => setTimeFrame(e.target.value)} required>
+                        <option value="">Select Time Frame</option>
+                        <option value="B">Breakfast</option>
+                        <option value="L">Lunch</option>
+                        <option value="S">Supper</option>
                     </select>
                 </div>
                 <div>
