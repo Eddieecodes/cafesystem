@@ -12,7 +12,18 @@ function Login() {
     const handleLogin = async (e) => {
         e.preventDefault();
         const loginEmail = email;
-        const endpoint = role === 'student' ? `${config.BASE_URL}/auth/login` : `${config.BASE_URL}/feedback/login`;
+        let endpoint;
+
+        switch (role) {
+            case 'admin':
+                endpoint = `${config.BASE_URL}/feedback/login`;
+                break;
+            case 'staff':
+                endpoint = `${config.BASE_URL}/auth/login`;
+                break;
+            default:
+                endpoint = `${config.BASE_URL}/auth/login`;
+        }
 
         try {
             const response = await fetch(endpoint, {
@@ -29,6 +40,9 @@ function Login() {
                 if (role === 'admin') {
                     localStorage.setItem('isAdmin', 'true');
                     navigate('/admin');
+                } else if (role === 'staff') {
+                    localStorage.setItem('isStaff', 'true');
+                    navigate('/staff');
                 } else {
                     localStorage.setItem('isStudent', 'true');
                     navigate('/student');
@@ -57,6 +71,12 @@ function Login() {
                         onClick={() => setRole('admin')}
                     >
                         Admin
+                    </button>
+                    <button 
+                        className={role === 'staff' ? 'staff-active' : ''} 
+                        onClick={() => setRole('staff')}
+                    >
+                        Staff
                     </button>
                 </div>
 

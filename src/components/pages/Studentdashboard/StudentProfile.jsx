@@ -1,157 +1,152 @@
-import React, { useState, useEffect } from 'react';
-import config from '../../../config';
-import './StudentProfile.css';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
+import config from "../../../config";
+import "./StudentProfile.css";
 
 function StudentProfile() {
-    const [studentInfo, setStudentInfo] = useState({
-        name: "",
-        matric: "",
-        department: "",
-        mealPlan: "",
-        email: "",
-    });
+  const [studentInfo, setStudentInfo] = useState({
+    name: "",
+    matric: "",
+    department: "",
+    mealPlan: "",
+    email: "",
+    verified: false,
+  });
 
-    const [receipt, setReceipt] = useState(null);
-    const [message, setMessage] = useState('');
-    const [extractedText, setExtractedText] = useState('');
+  const [receipt, setReceipt] = useState(null);
+  const [message, setMessage] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        // Fetch student profile data from backend
-        const fetchStudentInfo = async () => {
-            const token = localStorage.getItem('token');
-            if (!token) {
-                alert('Unauthorized');
-                return;
-            }
+  // Fetch student profile
+  useEffect(() => {
+    const fetchStudentInfo = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setMessage("Unauthorized");
+        return;
+      }
 
-            try {
-                const response = await fetch(`${config.BASE_URL}/auth/profile`, {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-                if (response.ok) {
-                    const data = await response.json();
-                    setStudentInfo({
-                        name: data.name,
-                        matric: data.studentDetails.matricNumber,
-                        department: data.studentDetails.department,
-                        mealPlan: data.studentDetails.mealPlan,
-                        email: data.email,
-                    });
-                } else {
-                    alert('Failed to fetch student profile.');
-                }
-            } catch (error) {
-                alert('An error occurred. Please try again.');
-            }
-        };
-
-        fetchStudentInfo();
-    }, []);
-
-    const handleFileChange = (e) => {
-        setReceipt(e.target.files[0]);
+      try {
+        const response = await fetch(`${config.BASE_URL}/auth/profile`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (response.ok) {
+          const data = await response.json();
+          setStudentInfo({
+            name: data.name,
+            matric: data.studentDetails.matricNumber,
+            department: data.studentDetails.department,
+            mealPlan: data.studentDetails.mealPlan,
+            email: data.email,
+            verified: data.verified,
+          });
+        } else {
+          const errorData = await response.json();
+          if (errorData.message === "Token expired") {
+            localStorage.removeItem("token");
+            navigate('/login');
+          } else {
+            setMessage("Failed to fetch student profile.");
+          }
+        }
+      } catch (error) {
+        setMessage("An error occurred while fetching profile.");
+      }
     };
 
-    const handleReceiptUpload = async (e) => {
-        e.preventDefault();
-        if (!receipt) {
-            setMessage('Please select a file first.');
-            return;
-        }
+    fetchStudentInfo();
+  }, [navigate]);
 
-        const formData = new FormData();
-        formData.append('receipt', receipt);
+  // Handle file change
+  const handleFileChange = (e) => {
+    setReceipt(e.target.files[0]);
+  };
 
-        try {
-            const token = localStorage.getItem('token');
-            const response = await fetch(`${config.BASE_URL}/receipt/upload`, {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                },
-                body: formData,
-            });
+  // Handle receipt upload
+  const handleReceiptUpload = async (e) => {
+    e.preventDefault();
 
-            if (response.ok) {
-                const data = await response.json();
-                setMessage(data.message);
-                setExtractedText(data.extractedText);
-            } else {
-                setMessage('Failed to upload receipt.');
-            }
-        } catch (error) {
-            console.error('Upload error:', error);
-            setMessage('Failed to upload receipt.');
-        }
-    };
+    if (!receipt) {
+      setMessage("Please select a file first.");
+      return;
+    }
 
-    return (
-        <div className="student-profile">
-            <h2>Student Profile</h2>
-            <div className="profile-container">
-                <label>Name:</label>
-                <input 
-                    type="text" 
-                    name="name" 
-                    value={studentInfo.name} 
-                    disabled 
-                />
+    const formData = new FormData();
+    formData.append("receipt", receipt);
 
-                <label>Matric Number:</label>
-                <input 
-                    type="text" 
-                    name="matric" 
-                    value={studentInfo.matric} 
-                    disabled 
-                />
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch("${config.BASE_URL}/receipt/upload", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
 
-                <label>Department:</label>
-                <input 
-                    type="text" 
-                    name="department" 
-                    value={studentInfo.department} 
-                    disabled 
-                />
+      const data = await response.json();
 
-                <label>Meal Plan:</label>
-                <input 
-                    type="text" 
-                    name="mealPlan" 
-                    value={studentInfo.mealPlan} 
-                    disabled 
-                />
+      if (response.ok) {
+        setMessage(data.message);
+        setShowModal(true);
+      } else {
+        setMessage(data.message || "Failed to upload receipt.");
+      }
+    } catch (error) {
+      console.error("Upload error:", error);
+      setMessage("Failed to upload receipt.");
+    }
+  };
 
-                <label>Email:</label>
-                <input 
-                    type="email" 
-                    name="email" 
-                    value={studentInfo.email} 
-                    disabled 
-                />
+  return (
+    <div className="student-profile">
+      <h2>Student Profile</h2>
+      <div className="profile-container">
+        <label>Name:</label>
+        <input type="text" value={studentInfo.name} disabled />
 
-                <form onSubmit={handleReceiptUpload} className="upload-receipt-form">
-                    <label>Upload Receipt:</label>
-                    <input 
-                        type="file" 
-                        accept="image/*"
-                        onChange={handleFileChange} 
-                        required 
-                    />
-                    <button type="submit">Upload</button>
-                    {message && <p>{message}</p>}
-                    {extractedText && (
-                        <div>
-                            <h3>Extracted Text:</h3>
-                            <p>{extractedText}</p>
-                        </div>
-                    )}
-                </form>
-            </div>
+        <label>Matric Number:</label>
+        <input type="text" value={studentInfo.matric} disabled />
+
+        <label>Department:</label>
+        <input type="text" value={studentInfo.department} disabled />
+
+        <label>Meal Plan:</label>
+        <input type="text" value={studentInfo.mealPlan} disabled />
+
+        <label>Email:</label>
+        <input type="email" value={studentInfo.email} disabled />
+
+        {studentInfo.verified && (
+          <div className="verified-check">
+            <span>Verified</span>
+            <span className="checkmark">✔️</span>
+          </div>
+        )}
+      </div>
+
+      <form onSubmit={handleReceiptUpload} className="upload-receipt-form">
+        <label>Upload Receipt:</label>
+        <input type="file" accept="image/*" onChange={handleFileChange} />
+        <button className="upload-btn" type="submit">Upload</button>
+      </form>
+
+      {message && <p>{message}</p>}
+
+      {showModal && (
+        <div className="modal">
+          <div className="modal-content">
+            <span className="close" onClick={() => setShowModal(false)}>&times;</span>
+            <p>{message}</p>
+          </div>
         </div>
-    );
+      )}
+    </div>
+  );
 }
 
 export default StudentProfile;
