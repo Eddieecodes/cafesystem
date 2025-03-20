@@ -10,6 +10,7 @@ import StudentProfile from './StudentProfile';
 
 function StudentDashboard() {
     const navigate = useNavigate();
+    
     const handleLogout = () => {
         localStorage.removeItem("isStudent");
         navigate('/login');

@@ -8,6 +8,9 @@ import ForgotPassword from './components/pages/ForgotPassword';
 import AdminDashboard from './components/pages/Admindashboard/Admindashboard';
 import StudentDashboard from './components/pages/Studentdashboard/StudentDashboard';
 import StaffDashboard from './components/pages/StaffDashboard';
+import {toast,ToastContainer} from 'react-toastify';
+import 'react-toastify/ReactToastify.css';
+
 
 function App() {
     const location = useLocation();
@@ -19,9 +22,11 @@ function App() {
     return (
         <>
             {!shouldHideNavbar && <Navbar />} {/* Hide navbar on dashboard pages */}
+            <ToastContainer/>
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />
+                
                 <Route path="/admin/*" element={<AdminDashboard />} /> {/* Keep admin nested routes */}
                 <Route path="/student/*" element={<StudentDashboard />} />
                 <Route path="/sign-up" element={<Signup />} />

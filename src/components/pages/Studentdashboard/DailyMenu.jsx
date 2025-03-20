@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import config from '../../../config';
 import './DailyMenu.css';
+import { toast } from "react-toastify";  
+import "react-toastify/dist/ReactToastify.css";  
+
 
 function DailyMenu() {
     const [menu, setMenu] = useState([]);
@@ -10,7 +13,7 @@ function DailyMenu() {
         const fetchMeals = async () => {
             const token = localStorage.getItem('token');
             if (!token) {
-                alert('Unauthorized');
+                toast.error('Unauthorized');
                 return;
             }
 
@@ -25,10 +28,10 @@ function DailyMenu() {
                     const data = await response.json();
                     setMenu(data);
                 } else {
-                    alert('Failed to fetch meals.');
+                    toast.error('Failed to fetch meals.');
                 }
             } catch (error) {
-                alert('An error occurred. Please try again.');
+                toast.error('An error occurred. Please try again.');
             }
         };
 

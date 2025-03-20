@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import axios from "axios";
 import config from '../../../config';
 import "./Announcement.css";
+import { toast } from "react-toastify";  
+import "react-toastify/dist/ReactToastify.css";  
+
 
 const Announcement = ({ onSendAnnouncement }) => {
   const [message, setMessage] = useState("");
@@ -12,7 +15,7 @@ const Announcement = ({ onSendAnnouncement }) => {
 
     const token = localStorage.getItem('token');
     if (!token) {
-      alert('Unauthorized');
+      toast.error('Unauthorized');
       return;
     }
 
@@ -23,10 +26,10 @@ const Announcement = ({ onSendAnnouncement }) => {
           'Authorization': `Bearer ${token}`
         }
       });
-      alert('Announcement sent successfully!');
+      toast.success('Announcement sent successfully!');
       setMessage("");
     } catch (error) {
-      alert('Failed to send announcement.');
+      toast.error('Failed to send announcement.');
     }
   };
 

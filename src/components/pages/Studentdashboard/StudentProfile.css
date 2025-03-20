@@ -1,11 +1,24 @@
 .student-profile {
     padding: 20px;
-    max-width: 500px;
+    max-width: 500px; /* Maintain size on desktop */
     margin: 30px auto;
     background: white;
     border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
+}
+
+/* Reduce size on mobile */
+@media (max-width: 600px) {
+    .student-profile {
+        max-width: 90%; /* Shrinks the container */
+        padding: 15px;
+    }
+
+    .upload-btn {
+        padding: 10px 50px; /* Reduce button width */
+        font-size: 14px; /* Smaller font */
+    }
 }
 
 h2 {
@@ -46,11 +59,5 @@ input:disabled {
     padding: 10px 200px;
     font-size: 16px;
     border-radius: 6px;
-    cursor: pointer;
-    margin-top: 10px;
-    transition: background 0.3s;
-}
-
-.upload-btn:hover {
-    background-color: rgb(180, 60, 15);
+   
 }

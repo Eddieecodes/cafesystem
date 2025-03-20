@@ -2,14 +2,21 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import config from "../../config";
 import "../../App.css";
+import { toast } from "react-toastify";  
+import "react-toastify/dist/ReactToastify.css";  
+
 
 function Login() {
   const [role, setRole] = useState("student");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+ 
 
   const handleLogin = async (e) => {
+    console.log('Login clicked');
+    setLoading(true);
     e.preventDefault();
     const loginEmail = email;
     let endpoint;
@@ -47,12 +54,16 @@ function Login() {
           localStorage.setItem("isStudent", "true");
           navigate("/student");
         }
+        toast.success("Login successful");
       } else {
-        alert("Login failed. Please check your credentials and try again.");
+        // alert("Login failed. Please check your credentials and try again.");
+        toast.error("Login failed. Please check your credentials.", { position: "top-right" });
       }
     } catch (error) {
-      alert("An error occurred. Please try again.");
+      // alert("An error occurred. Please try again.");
+      toast.error("An error occurred. Please try again.", { position: "top-right" });
     }
+    setLoading(false);
   };
 
   return (
@@ -95,7 +106,7 @@ function Login() {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          <button type="submit">Login</button>
+          <button type="submit">{loading ? "loading.." : "Login"}</button>
         </form>
 
         <p className="auth-toggle">

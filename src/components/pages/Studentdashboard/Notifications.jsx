@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import config from '../../../config';
 import './Notifications.css';
+import { toast } from "react-toastify";  
+import "react-toastify/dist/ReactToastify.css";  
+
 
 function Notifications() {
     const [notifications, setNotifications] = useState([]);
@@ -10,7 +13,7 @@ function Notifications() {
         const fetchNotifications = async () => {
             const token = localStorage.getItem('token');
             if (!token) {
-                alert('Unauthorized');
+                toast.error('Unauthorized');
                 return;
             }
 
@@ -24,11 +27,12 @@ function Notifications() {
                 if (response.ok) {
                     const data = await response.json();
                     setNotifications(data);
+                   
                 } else {
-                    alert('Failed to fetch notifications.');
+                    toast.error('Failed to fetch notifications.');
                 }
             } catch (error) {
-                alert('An error occurred. Please try again.');
+                toast.error('An error occurred. Please try again.');
             }
         };
 

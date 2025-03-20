@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import config from '../../../config';
 import "./Profile.css";
+import { toast } from "react-toastify";  
+import "react-toastify/dist/ReactToastify.css";  
+
 
 const Profile = () => {
     const [adminInfo, setAdminInfo] = useState({
@@ -17,7 +20,7 @@ const Profile = () => {
         const fetchProfile = async () => {
             const token = localStorage.getItem('token');
             if (!token) {
-                alert('Unauthorized');
+                toast.error('Unauthorized');
                 return;
             }
 
@@ -35,7 +38,7 @@ const Profile = () => {
                     createdAt: new Date(data.createdAt).toLocaleDateString()
                 });
             } catch (error) {
-                alert('Failed to fetch profile data.');
+                toast.error('Failed to fetch profile data.');
             }
         };
 
@@ -46,7 +49,7 @@ const Profile = () => {
         e.preventDefault();
         localStorage.setItem("email", adminInfo.email);
         localStorage.setItem("password", password);
-        alert("Profile Updated Successfully!");
+        toast.success("Profile Updated Successfully!");
     };
 
     return (

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
-import Sidebar from "../../../components/shared/Sidebar";
+import Sidebar from "../../shared/Sidebar";
 import Overview from './Overview';
 import StudentManagement from './StudentManagement';
 import MealInput from './MealInput';
@@ -11,7 +11,7 @@ import './Admin.css';
 
 function Admindashboard() {
     const navigate = useNavigate();
-    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+    // const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
     const handleLogout = () => {
         localStorage.removeItem("isAdmin");
@@ -21,12 +21,12 @@ function Admindashboard() {
     return (
         <div className="admin-container">
             {/* Hamburger Button (Only Visible in Mobile) */}
-            <button className="hamburger-btn" onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
+            {/* <button className="hamburger-btn" onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
                 ☰
-            </button>
+            </button> */}
 
             {/* Sidebar Component */}
-            <Sidebar role="admin" onLogout={handleLogout} isOpen={isSidebarOpen} />
+            <Sidebar role="admin" onLogout={handleLogout}  />
 
             {/* Main Content */}
             <div className="admin-content">

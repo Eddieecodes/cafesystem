@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import config from '../../../config';
 import './MealInput.css';
+import { toast } from "react-toastify";  
+import "react-toastify/dist/ReactToastify.css";  
+
 
 function MealInput() {
     const [mealName, setMealName] = useState('');
@@ -14,7 +17,7 @@ function MealInput() {
         e.preventDefault();
         const token = localStorage.getItem('token');
         if (!token) {
-            alert('Unauthorized');
+            toast.error('Unauthorized');
             return;
         }
 
@@ -24,9 +27,9 @@ function MealInput() {
                     'Authorization': `Bearer ${token}`
                 }
             });
-            alert('Meal Added Successfully');
+            toast.success('Meal Added Successfully');
         } catch (error) {
-            alert('Failed to add meal.');
+            toast.error('Failed to add meal.');
         }
     };
 

@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import config from '../../../config';
 import "./Feedback.css";
+import { toast } from "react-toastify";  
+import "react-toastify/dist/ReactToastify.css";  
+
 
 const Feedback = () => {
   const [feedbackList, setFeedbackList] = useState([]);
@@ -11,7 +14,7 @@ const Feedback = () => {
     const fetchFeedback = async () => {
       const token = localStorage.getItem('token');
       if (!token) {
-        alert('Unauthorized');
+        toast.error('Unauthorized');
         return;
       }
 
@@ -23,7 +26,7 @@ const Feedback = () => {
         });
         setFeedbackList(response.data);
       } catch (error) {
-        alert('Failed to fetch feedback.');
+        toast.error('Failed to fetch feedback.');
       }
     };
 

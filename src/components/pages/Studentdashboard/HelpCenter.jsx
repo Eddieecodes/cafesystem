@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import config from '../../../config';
 import './HelpCenter.css';
+import { toast } from "react-toastify";  
+import "react-toastify/dist/ReactToastify.css";  
+
 
 function HelpCenter() {
     const [message, setMessage] = useState("");
@@ -12,7 +15,7 @@ function HelpCenter() {
         const fetchStudentId = async () => {
             const token = localStorage.getItem('token');
             if (!token) {
-                alert('Unauthorized');
+                toast.error('Unauthorized');
                 return;
             }
 
@@ -27,10 +30,10 @@ function HelpCenter() {
                     const data = await response.json();
                     setStudentId(data._id);
                 } else {
-                    alert('Failed to fetch student ID.');
+                    toast.error('Failed to fetch student ID.');
                 }
             } catch (error) {
-                alert('An error occurred. Please try again.');
+                toast.error('An error occurred. Please try again.');
             }
         };
 
@@ -41,7 +44,7 @@ function HelpCenter() {
         if (message.trim() !== "") {
             const token = localStorage.getItem('token');
             if (!token) {
-                alert('Unauthorized');
+                toast.error('Unauthorized');
                 return;
             }
 
@@ -59,12 +62,12 @@ function HelpCenter() {
                     const data = await response.json();
                     setMessages([...messages, { text: message, date: new Date().toLocaleString() }]);
                     setMessage("");
-                    alert(data.message);
+                    toast.success(data.message);
                 } else {
-                    alert('Failed to submit feedback.');
+                    toast.error('Failed to submit feedback.');
                 }
             } catch (error) {
-                alert('An error occurred. Please try again.');
+                toast.error('An error occurred. Please try again.');
             }
         }
     };

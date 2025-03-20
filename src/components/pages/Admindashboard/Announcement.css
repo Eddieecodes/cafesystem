@@ -1,39 +1,67 @@
 .announcement-container {
-    width: 100%;
-    max-width: 600px;
-    margin: auto;
-    padding: 20px;
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  width: 90%;  /* Adjust width to fit mobile screens */
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Ensure text and form elements scale properly */
+.announcement-container h2 {
+  font-size: 20px; /* Reduce font size on smaller screens */
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.announcement-container textarea {
+  width: 100%;
+  height: 120px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  resize: none;
+}
+
+/* Make button more touch-friendly */
+.announcement-container button {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  background-color: rgb(117, 36, 9);
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.announcement-container button:hover {
+  background-color: rgb(90, 25, 5);
+}
+
+/* 📱 Mobile-specific styling */
+@media (max-width: 480px) {
+  .announcement-container {
+      width: 95%; /* Use more screen space on small devices */
+      padding: 15px;
   }
-  
+
   .announcement-container h2 {
-    font-size: 24px;
-    margin-bottom: 15px;
+      font-size: 18px;
   }
-  
+
   .announcement-container textarea {
-    width: 100%;
-    height: 120px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 16px;
+      height: 100px; /* Reduce height slightly for small screens */
+      font-size: 14px;
   }
-  
+
   .announcement-container button {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    margin-top: 10px;
-    background-color: rgb(117, 36, 9);
-    color: white;
-    font-size: 18px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
+      font-size: 14px;
+      padding: 10px;
   }
-  
-  
-  
+}

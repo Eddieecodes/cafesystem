@@ -7,6 +7,9 @@ import Table from "../ui/Table";
 import Modal from "../ui/Modal";
 import { Edit, Trash2, Plus } from "lucide-react";
 import "./StudentManagement.css";
+import { toast } from "react-toastify";  
+import "react-toastify/dist/ReactToastify.css";  
+
 
 const StudentManagement = () => {
   const [students, setStudents] = useState([]);
@@ -19,7 +22,7 @@ const StudentManagement = () => {
     const fetchStudents = async () => {
       const token = localStorage.getItem('token');
       if (!token) {
-        alert('Unauthorized');
+        toast.error('Unauthorized');
         return;
       }
 
@@ -31,7 +34,7 @@ const StudentManagement = () => {
         });
         setStudents(response.data);
       } catch (error) {
-        alert('Failed to fetch students.');
+        toast.error('Failed to fetch students.');
       }
     };
 
@@ -41,7 +44,7 @@ const StudentManagement = () => {
   const handleDelete = async (id) => {
     const token = localStorage.getItem('token');
     if (!token) {
-      alert('Unauthorized');
+      toast.error('Unauthorized');
       return;
     }
 
@@ -53,14 +56,14 @@ const StudentManagement = () => {
       });
       setStudents(students.filter(student => student._id !== id));
     } catch (error) {
-      alert('Failed to delete student.');
+      toast.error('Failed to delete student.');
     }
   };
 
   const handleEdit = async (id, key, value) => {
     const token = localStorage.getItem('token');
     if (!token) {
-      alert('Unauthorized');
+      toast.error('Unauthorized');
       return;
     }
 
@@ -72,14 +75,14 @@ const StudentManagement = () => {
       });
       setStudents(students.map(student => student._id === id ? response.data.student : student));
     } catch (error) {
-      alert('Failed to update student.');
+      toast.error('Failed to update student.');
     }
   };
 
   const handleAddStudent = async () => {
     const token = localStorage.getItem('token');
     if (!token) {
-      alert('Unauthorized');
+      toast.error('Unauthorized');
       return;
     }
 
@@ -93,7 +96,7 @@ const StudentManagement = () => {
       setIsModalOpen(false);
       setNewStudent({ name: "", email: "", matricNumber: "", department: "", mealPlan: "" });
     } catch (error) {
-      alert('Failed to add student.');
+      toast.error('Failed to add student.');
     }
   };
 

@@ -4,6 +4,9 @@ import axios from 'axios';
 import config from '../../../config';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, LineElement, PointElement, Title, Tooltip, Legend } from 'chart.js';
 import './Overview.css';
+import { toast } from "react-toastify";  
+import "react-toastify/dist/ReactToastify.css";  
+
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, LineElement, PointElement, Title, Tooltip, Legend);
 
@@ -19,7 +22,7 @@ function Overview() {
         const fetchSummary = async () => {
             const token = localStorage.getItem('token');
             if (!token) {
-                alert('Unauthorized');
+                toast.error('Unauthorized');
                 return;
             }
 
@@ -35,14 +38,14 @@ function Overview() {
                 setWeeklyAnalysis(data.weeklyAnalysis.dailySummary);
                 setFoodAnalysis(data.foodAnalysis);
             } catch (error) {
-                alert('Failed to fetch summary data.');
+                toast.error('Failed to fetch summary data.');
             }
         };
 
         const fetchAdminProfile = async () => {
             const token = localStorage.getItem('token');
             if (!token) {
-                alert('Unauthorized');
+                toast.error('Unauthorized');
                 return;
             }
 
@@ -55,7 +58,7 @@ function Overview() {
                 const data = response.data;
                 setAdminName(data.name);
             } catch (error) {
-                alert('Failed to fetch admin profile.');
+                toast.error('Failed to fetch admin profile.');
             }
         };
 

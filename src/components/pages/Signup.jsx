@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import config from '../../config';
 import '../../App.css';
+import { toast } from "react-toastify";  
+import "react-toastify/dist/ReactToastify.css";  
+
 
 function Signup() {
     const navigate = useNavigate();
@@ -12,11 +15,11 @@ function Signup() {
     const handleSignup = async (e) => {
         e.preventDefault();
         if (!/^[a-zA-Z0-9._%+-]+@student\.babcock\.edu\.ng$/.test(email)) {
-            alert('Please use a valid Babcock student email address.');
+            toast.error('Please use a valid Babcock student email address.');
             return;
         }
         if (password !== confirmPassword) {
-            alert('Passwords do not match.');
+            toast.error('Passwords do not match.');
             return;
         }
 
@@ -38,10 +41,10 @@ function Signup() {
                 navigate('/login');
             } else {
                 const errorData = await response.json();
-                alert(`Signup failed: ${errorData.message}`);
+                toast.error(`Signup failed: ${errorData.message}`);
             }
         } catch (error) {
-            alert('An error occurred. Please try again.');
+            toast.error('An error occurred. Please try again.');
         }
     };
 
