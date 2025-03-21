@@ -101,8 +101,8 @@ const StudentManagement = () => {
   };
 
   return (
-    <div className="student-management-container">
-      <div className="header">
+    <div className= "student-management-container">
+      <div className= "header">
         <Input
           type="text"
           placeholder="Filter students..."
@@ -114,7 +114,7 @@ const StudentManagement = () => {
 
       <Table
         headers={["Name", "Email", "Matric No", "Department", "Meal Plan", "Actions"]}
-        data={students.filter(s => s.name.includes(filter) || s.course.includes(filter))}
+        data={students.filter(s => s.name.includes(filter) || s.department.includes(filter))}
         renderRow={(student) => (
           <>
             <td

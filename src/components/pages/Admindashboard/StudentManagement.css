@@ -1,14 +1,7 @@
-.student-management {
-    padding: 30px;
-    overflow-x: auto; /* Allows horizontal scrolling on small screens */
-}
 
-.student-header {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+.student-management-container{
+    margin-left: 250px;
+    
 }
 
 .addstudent {
@@ -34,15 +27,13 @@ table th, table td {
 }
 
 @media (max-width: 768px) {
+    .student-management-container{
+        margin-left: 0px;
+    }
     table {
         display: block;
         overflow-x: auto;
         white-space: nowrap;
-    }
-
-    .student-header {
-        flex-direction: column;
-        align-items: flex-start;
     }
 
     .addstudent {

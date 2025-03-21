@@ -11,7 +11,7 @@ import './Admin.css';
 
 function Admindashboard() {
     const navigate = useNavigate();
-    // const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
     const handleLogout = () => {
         localStorage.removeItem("isAdmin");
@@ -21,12 +21,12 @@ function Admindashboard() {
     return (
         <div className="admin-container">
             {/* Hamburger Button (Only Visible in Mobile) */}
-            {/* <button className="hamburger-btn" onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
+            <button className="hamburger-btn" onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
                 ☰
-            </button> */}
+            </button>
 
             {/* Sidebar Component */}
-            <Sidebar role="admin" onLogout={handleLogout}  />
+            <Sidebar role="admin" onLogout={handleLogout} isOpen={isSidebarOpen} />
 
             {/* Main Content */}
             <div className="admin-content">
