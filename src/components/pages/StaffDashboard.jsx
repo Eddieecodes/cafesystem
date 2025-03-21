@@ -74,9 +74,7 @@ function StaffDashboard() {
   const handleScanAgain = () => {
     setScanResult(null);
     setError(null);
-    if (scannerRef.current) {
-      scannerRef.current.render(handleSuccess, handleError);
-    }
+    window.location.reload(); // Refresh the page
   };
 
   return (

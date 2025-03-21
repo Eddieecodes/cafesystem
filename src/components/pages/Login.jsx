@@ -36,7 +36,7 @@ function Login() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email: loginEmail, password }),
+        body: JSON.stringify({ email: loginEmail, role, password }),
       });
 
       if (response.ok) {
