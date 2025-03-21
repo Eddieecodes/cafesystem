@@ -80,7 +80,7 @@ function StudentProfile() {
 
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("${config.BASE_URL}/receipt/upload", {
+      const response = await fetch(`${config.BASE_URL}/receipt/upload`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -131,7 +131,7 @@ function StudentProfile() {
 
       <form onSubmit={handleReceiptUpload} className="upload-receipt-form">
         <label>Upload Receipt:</label>
-        <input type="file" accept="image/*" onChange={handleFileChange} />
+        <input type="file" accept="image/*,application/pdf" onChange={handleFileChange} />
         <button className="upload-btn" type="submit">Upload</button>
       </form>
 
