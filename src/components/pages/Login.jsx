@@ -2,9 +2,8 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import config from "../../config";
 import "../../App.css";
-import { toast } from "react-toastify";  
-import "react-toastify/dist/ReactToastify.css";  
-
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Login() {
   const [role, setRole] = useState("student");
@@ -12,10 +11,9 @@ function Login() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
- 
 
   const handleLogin = async (e) => {
-    console.log('Login clicked');
+    console.log("Login clicked");
     setLoading(true);
     e.preventDefault();
     const loginEmail = email;
@@ -38,7 +36,7 @@ function Login() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email: loginEmail, password, role }),
+        body: JSON.stringify({ email: loginEmail, password }),
       });
 
       if (response.ok) {
@@ -56,12 +54,14 @@ function Login() {
         }
         toast.success("Login successful");
       } else {
-        // alert("Login failed. Please check your credentials and try again.");
-        toast.error("Login failed. Please check your credentials.", { position: "top-right" });
+        toast.error("Login failed. Please check your credentials.", {
+          position: "top-right",
+        });
       }
     } catch (error) {
-      // alert("An error occurred. Please try again.");
-      toast.error("An error occurred. Please try again.", { position: "top-right" });
+      toast.error("An error occurred. Please try again.", {
+        position: "top-right",
+      });
     }
     setLoading(false);
   };
@@ -106,7 +106,7 @@ function Login() {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          <button type="submit">{loading ? "loading.." : "Login"}</button>
+          <button type="submit">{loading ? "Loading..." : "Login"}</button>
         </form>
 
         <p className="auth-toggle">
