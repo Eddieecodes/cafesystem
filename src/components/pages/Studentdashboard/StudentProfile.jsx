@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
+import { toast } from "react-toastify";
 import config from "../../../config";
 import "./StudentProfile.css";
 
@@ -91,14 +92,14 @@ function StudentProfile() {
       const data = await response.json();
 
       if (response.ok) {
-        setMessage(data.message);
+        toast.success(data.message);
         setShowModal(true);
       } else {
-        setMessage(data.message || "Failed to upload receipt.");
+        toast.error(data.message || "Failed to upload receipt.");
       }
     } catch (error) {
       console.error("Upload error:", error);
-      setMessage("Failed to upload receipt.");
+      toast.error("Failed to upload receipt.");
     }
   };
 

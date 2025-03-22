@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FaCheckCircle } from 'react-icons/fa';
 import config from '../../../config';
 import './Overvieww.css';
+import { toast } from "react-toastify";
 
 function Overvieww() {
     const [qrCodeUrl, setQrCodeUrl] = useState(null);
@@ -15,7 +16,7 @@ function Overvieww() {
         const fetchStudentData = async () => {
             const token = localStorage.getItem('token');
             if (!token) {
-                alert('Unauthorized');
+                toast.error('Unauthorized');
                 return;
             }
 
@@ -30,10 +31,10 @@ function Overvieww() {
                     const data = await response.json();
                     setStudentData(data);
                 } else {
-                    alert('Failed to fetch student data.');
+                    toast.error('Failed to fetch student data.');
                 }
             } catch (error) {
-                alert('An error occurred. Please try again.');
+                toast.error('An error occurred. Please try again.');
             }
         };
 
@@ -41,7 +42,7 @@ function Overvieww() {
         const fetchMeals = async () => {
             const token = localStorage.getItem('token');
             if (!token) {
-                alert('Unauthorized');
+                toast.error('Unauthorized');
                 return;
             }
 
@@ -58,10 +59,10 @@ function Overvieww() {
                     const availableMeals = data.filter(meal => new Date(meal.date).setHours(0, 0, 0, 0) === today);
                     setMeals(availableMeals);
                 } else {
-                    alert('Failed to fetch meals.');
+                    toast.error('Failed to fetch meals.');
                 }
             } catch (error) {
-                alert('An error occurred. Please try again.');
+                toast.error('An error occurred. Please try again.');
             }
         };
 
@@ -72,7 +73,7 @@ function Overvieww() {
     const generateQRCode = async () => {
         const token = localStorage.getItem('token');
         if (!token) {
-            alert('Unauthorized');
+            toast.error('Unauthorized');
             return;
         }
 
@@ -93,12 +94,26 @@ function Overvieww() {
                 const data = await response.json();
                 setQrCodeUrl(data.qrCodeUrl);
                 setError(null);
+                toast.success("QR Code generated successfully!");
             } else {
-                const errorData = await response.json();
-                setError(errorData.message);
+                let errorMessage = "An error occurred. Please try again.";
+            
+                try {
+                    const errorData = await response.json();
+                    if (errorData.message) {
+                        errorMessage = errorData.message;
+                    }
+                } catch (error) {
+                    console.error("Error parsing JSON response:", error);
+                }
+            
+                setError(errorMessage);
+                toast.error(errorMessage);
             }
+            
         } catch (error) {
             setError('An error occurred. Please try again.');
+            toast.error('An error occurred. Please try again.');
         }
     };
 
@@ -112,12 +127,17 @@ function Overvieww() {
     return (
         <div className="overview-all">
             <h1 className='overview-name'>Welcome back <br></br>{studentData.name}!</h1>
-            {studentData.verified && (
-                <div className="verified-check">
-                    <span>Verified</span>
-                    <FaCheckCircle className="checkmark" />
-                </div>
-            )}
+            <div className="verified-check">
+                {studentData.verified ? (
+                    <>
+                        <span>Verified</span>
+                        <FaCheckCircle className="checkmark" />
+                    </>
+                ) : (
+                    <span>Not Verified</span>
+                )}
+                <span className="credits">Credits: {studentData.credits}</span>
+            </div>
             <div className="overview">
                 <select 
                     value={selectedMeal} 

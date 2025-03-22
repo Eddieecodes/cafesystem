@@ -1,10 +1,9 @@
-
-.student-management-container{
+.student-management-container {
     margin-left: 250px;
-    
+    padding: 20px;
 }
 
-.addstudent {
+.addstudent, .adduser {
     margin: 20px 0;
     background-color: rgb(117, 36, 9);
     padding: 10px;
@@ -12,6 +11,18 @@
     border-radius: 5px;
     display: block;
     text-align: center;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.header input {
+    flex: 1;
+    margin-right: 10px;
 }
 
 /* Responsive Table */
@@ -27,17 +38,28 @@ table th, table td {
 }
 
 @media (max-width: 768px) {
-    .student-management-container{
+    .student-management-container {
         margin-left: 0px;
+        padding: 10px;
     }
+
     table {
         display: block;
         overflow-x: auto;
         white-space: nowrap;
     }
 
-    .addstudent {
-        width: 50%;
-        justify-self: end;
+    .addstudent, .adduser {
+        width: 100%;
+        margin: 10px 0;
+    }
+
+    .header {
+        flex-direction: column;
+    }
+
+    .header input {
+        margin: 10px 0;
+        width: 100%;
     }
 }
