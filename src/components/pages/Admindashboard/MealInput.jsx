@@ -29,7 +29,7 @@ function MealInput() {
             });
             toast.success('Meal Added Successfully');
         } catch (error) {
-            toast.error('Failed to add meal.');
+            toast.error('Failed to add meal. There is no meal for this timeframe');
         }
     };
 

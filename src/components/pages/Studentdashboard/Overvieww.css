@@ -104,6 +104,7 @@
     width: 200px;
     height: 200px;
     margin: 20px 0;
+    align-self: center;
 }
 
 .download-btn {
@@ -123,4 +124,7 @@
 .qr-code-container {
     margin-top: 20px;
     text-align: center;
+    display: flex;
+    gap: 5px;
+    flex-direction: column;
 }
