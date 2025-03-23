@@ -104,7 +104,8 @@
     width: 200px;
     height: 200px;
     margin: 20px 0;
-    align-self: center;
+    border: 1px solid #ccc;
+    border-radius: 10px;
 }
 
 .download-btn {
@@ -124,7 +125,38 @@
 .qr-code-container {
     margin-top: 20px;
     text-align: center;
-    display: flex;
-    gap: 5px;
-    flex-direction: column;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.qr-code-container p {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.verified-check {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  font-size: 18px;
+  color: #333;
+}
+
+.verified-check span {
+  margin-right: 10px;
+}
+
+.checkmark {
+  color: green;
+  font-size: 24px;
+}
+
+.credits {
+  margin-left: 20px;
+  font-size: 18px;
+  color: #555;
 }
