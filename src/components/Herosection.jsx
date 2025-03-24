@@ -1,5 +1,5 @@
 import React from "react";
-import './HeroSection.css';
+import './Herosection.css';
 import { Button } from "./Button";
 // import '../App.css'
 
