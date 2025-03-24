@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Html5QrcodeScanner, Html5QrcodeSupportedFormats } from "html5-qrcode";
 import { FaQrcode } from "react-icons/fa";
 import config from "../../config";
-import "./StaffDashboard.css";
+import "./StaffDashBoard.css";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
