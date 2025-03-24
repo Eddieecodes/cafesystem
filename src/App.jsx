@@ -4,7 +4,7 @@ import Navbar from './components/Navbar';
 import Home from './components/pages/Home';
 import Login from './components/pages/Login';
 import Signup from './components/pages/Signup';
-import ForgotPassword from './components/pages/ForgotPassword';
+import Forgotpassword from './components/pages/Forgotpassword';
 import AdminDashboard from './components/pages/Admindashboard/Admindashboard';
 import StudentDashboard from './components/pages/Studentdashboard/StudentDashboard';
 import StaffDashboard from './components/pages/StaffDashboard';

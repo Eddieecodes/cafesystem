@@ -3,6 +3,8 @@ import { Html5QrcodeScanner, Html5QrcodeSupportedFormats } from "html5-qrcode";
 import { FaQrcode } from "react-icons/fa";
 import config from "../../config";
 import "./StaffDashboard.css";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function StaffDashboard() {
   const [scanResult, setScanResult] = useState(null);
@@ -40,7 +42,7 @@ function StaffDashboard() {
   const sendScanDataToBackend = async (qrData) => {
     const token = localStorage.getItem("token");
     if (!token) {
-      alert("Unauthorized");
+      toast.error("Unauthorized");
       return;
     }
 
@@ -57,7 +59,7 @@ function StaffDashboard() {
       const data = await response.json();
 
       if (response.ok) {
-        alert(data.message);
+        toast.success(data.message);
       } else {
         setError(data.message);
       }

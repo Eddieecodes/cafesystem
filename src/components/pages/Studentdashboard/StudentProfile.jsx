@@ -16,7 +16,7 @@ function StudentProfile() {
 
   const [receipt, setReceipt] = useState(null);
   const [message, setMessage] = useState("");
-  const [showModal, setShowModal] = useState(false);
+  // const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
   // Fetch student profile
@@ -93,7 +93,7 @@ function StudentProfile() {
 
       if (response.ok) {
         toast.success(data.message);
-        setShowModal(true);
+        // setShowModal(true);
       } else {
         toast.error(data.message || "Failed to upload receipt.");
       }
@@ -138,14 +138,14 @@ function StudentProfile() {
 
       {message && <p>{message}</p>}
 
-      {showModal && (
+      {/* {showModal && (
         <div className="modal">
           <div className="modal-content">
             <span className="close" onClick={() => setShowModal(false)}>&times;</span>
             <p>{message}</p>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 }
