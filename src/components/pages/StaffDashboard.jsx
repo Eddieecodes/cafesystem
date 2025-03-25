@@ -15,19 +15,21 @@ function StaffDashboard() {
     const scanner = new Html5QrcodeScanner("reader", {
       qrbox: { width: 250, height: 250 },
       fps: 10,
-      formatsToSupport: [Html5QrcodeSupportedFormats.QR_CODE, Html5QrcodeSupportedFormats.PDF_417],
+      formatsToSupport: [
+        Html5QrcodeSupportedFormats.QR_CODE,
+        Html5QrcodeSupportedFormats.PDF_417,
+      ],
     });
 
     scanner.render(handleSuccess, handleError);
 
     function handleSuccess(decodedText) {
       sendScanDataToBackend(decodedText);
-      setScanResult(decodedText);
-      scanner.clear();
+      scanner.clear(); // Stop scanning after success
     }
 
     function handleError(err) {
-      console.error(err);
+      console.error("Scanning error:", err);
     }
 
     scannerRef.current = scanner;
@@ -60,10 +62,12 @@ function StaffDashboard() {
 
       if (response.ok) {
         toast.success(data.message);
+        setScanResult(data); // ✅ Store entire response properly
       } else {
         setError(data.message);
       }
     } catch (error) {
+      console.error("Error scanning:", error);
       setError("Error scanning ticket");
     }
   };
@@ -77,7 +81,7 @@ function StaffDashboard() {
   const handleScanAgain = () => {
     setScanResult(null);
     setError(null);
-    window.location.reload(); // Refresh the page
+    window.location.reload(); // ✅ Reload page to restart scanner
   };
 
   const handleFileUpload = async (event) => {
@@ -86,7 +90,6 @@ function StaffDashboard() {
       const reader = new FileReader();
       reader.onload = async (e) => {
         const result = e.target.result;
-        // Assuming the backend can handle base64 encoded files
         await sendScanDataToBackend(result);
       };
       reader.readAsDataURL(file);
@@ -96,20 +99,31 @@ function StaffDashboard() {
   return (
     <div className="staff-dashboard">
       <h1>Staff Dashboard</h1>
+
       {!scanResult ? (
         <div>
           <div id="reader" className="qr-reader"></div>
-          <input type="file" accept="image/*,application/pdf" onChange={handleFileUpload} />
+          <input
+            type="file"
+            accept="image/*,application/pdf"
+            onChange={handleFileUpload}
+          />
         </div>
       ) : (
         <div className="ticket-info">
-          <p>Ticket scanned successfully!</p>
+          <p>{scanResult.message}</p>
+          <p>User: {scanResult.user?.name || "Unknown"}</p>
+          <p>Credits: {scanResult.user?.credits ?? "N/A"}</p>
+          <p>Meal: {scanResult.meal?.name || "N/A"}</p>
+         
           <button onClick={handleScanAgain} className="scan-again-btn">
             <FaQrcode /> Scan Again
           </button>
         </div>
       )}
+
       {error && <p className="error-message">{error}</p>}
+
       <button className="logout-btn" onClick={handleLogout}>
         Logout
       </button>
